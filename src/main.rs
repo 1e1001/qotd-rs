@@ -66,7 +66,7 @@ fn parse_args(args: env::Args) -> Option<Box<dyn Quote>> {
 			Some(Box::new(QuoteFile::new(&args[2])))
 		},
 		"cmd" => if args.len() < 3 {
-			println!("Usage: qotd-rs cmd [cmd] [...args]");
+			println!("Usage: qotd-rs cmd [program] [...args]");
 			None
 		} else {
 			Some(Box::new(QuoteCmd::new(&args[2..])))
@@ -81,7 +81,7 @@ fn parse_args(args: env::Args) -> Option<Box<dyn Quote>> {
 
 fn print_usage() {
 	println!("Usage: qotd-rs [provider] [...args]");
-	println!("where provider is one of: file, cmd");
+	println!("Where provider is one of: file, cmd");
 }
 
 fn main() {
@@ -97,7 +97,7 @@ fn main() {
 	let mut rng = rand::thread_rng();
 	let mut counter = 0u128;
 	print_count(counter);
-	let listener = TcpListener::bind("127.0.0.1:17").unwrap();
+	let listener = TcpListener::bind("0.0.0.0:17").unwrap();
 	for stream in listener.incoming() {
 		match handle(stream, &quotes, &mut rng) {
 			Err(v) => println!("\x1b[A\x1b[K[{}] Error: {}\n", Local::now().format("%F %T%.3f"), v),
